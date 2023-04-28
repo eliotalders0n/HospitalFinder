@@ -10,6 +10,7 @@ import Advertise from "./components/advertise";
 import Help from "./components/help";
 // Admin interface
 import Dashboard from "./admin/components/dashboard";
+import Login from "./admin/components/login";
 import Settings from "./admin/components/settings";
 import Hospitals from "./admin/components/hospitalsList";
 import Support from "./admin/components/support";
@@ -32,6 +33,7 @@ const App = () => {
       </Routes>
       <Routes>
         <Route path="/admin" element={<Dashboard />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/hospitals" element={<Hospitals />} />
