@@ -13,6 +13,7 @@ firebase.initializeApp(firebaseConfig);
 const collectionPath = "hospitals";
 
 function UpdateHospital() {
+  const [updated, setUpdated] = useState(false);
   const { id } = useParams();
   const [hospital, setHospital] = useState({
     name: "",
@@ -55,12 +56,16 @@ function UpdateHospital() {
       .update(hospital)
       .then(() => {
         console.log("hospital updated successfully");
-        <Navigate to="/hospitals" />;
+        setUpdated(true);
       })
       .catch((error) => {
         console.error("Error updating hospital:", error);
       });
   };
+
+  if(updated){
+    return <Navigate to="/hospitals" />; // navigate to dashboard
+  }
 
   return (
     <Container fluid>

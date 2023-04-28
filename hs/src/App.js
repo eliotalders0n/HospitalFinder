@@ -46,7 +46,7 @@ const App = () => {
       <Routes>
         <Route path="/updateHospital/:id" element={<UpdateHospital />} />
         <Route path="/addNewHospital" element={<AddHospital />} />
-        <Route path="/updateUsers" element={<UpdateUsers />} />
+        <Route path="/updateUsers/:id" element={<UpdateUsers />} />
         <Route path="/addNewUsers" element={<AddUsers />} />
         <Route path="/updateSettings" element={<UpdateSettings />} />
       </Routes>

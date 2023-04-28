@@ -10,6 +10,8 @@ import Main from "../template/main";
 firebase.initializeApp(firebaseConfig);
 
 function AddHospital() {
+    
+  const [updated, setUpdated] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -34,11 +36,15 @@ function AddHospital() {
         logo,
       });
       console.log("Hospital added successfully!");
-      <Navigate to="/hospitals" />;
+      setUpdated(true);
     } catch (error) {
       console.error("Error adding hospital: ", error);
     }
   };
+
+  if(updated){
+    return <Navigate to="/hospitals" />; // navigate to dashboard
+  }
 
   return (
     <Container fluid>
@@ -106,7 +112,10 @@ function AddHospital() {
 
                 <Form.Group as={Col} controlId="formGridState">
                   <Form.Label>State</Form.Label>
-                  <Form.Select defaultValue="Choose..." onChange={(event) => setState(event.target.value)} >
+                  <Form.Select
+                    defaultValue="Choose..."
+                    onChange={(event) => setState(event.target.value)}
+                  >
                     <option>Choose...</option>
                     <option value={state}>...</option>
                   </Form.Select>
