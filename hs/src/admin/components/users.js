@@ -16,7 +16,7 @@ function Users(props) {
             <Main />
             <h2 className="text-muted my-5">Users</h2>
             <p className="text-muted">Organise and update users</p>
-            <Button href="/addNewUser" className="my-3">Add New User</Button>
+            <Button href="/addNewUsers" className="my-3">Add New User</Button>
             <Table striped bordered hover variant="light">
               <thead>
                 <tr>

@@ -1,65 +1,43 @@
-import React, { useState, useEffect } from "react";
-
+import React, { useState } from "react";
+import { Navigate } from "react-router-dom";
 import firebaseConfig from "../../firebaseConfig";
 import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
-
 import Sidebar from "../template/sidebar";
-import { Navigate, useParams } from "react-router-dom";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import Main from "../template/main";
 
 firebase.initializeApp(firebaseConfig);
-const collectionPath = "hospitals";
 
-function UpdateHospital() {
-  const { id } = useParams();
-  const [hospital, setHospital] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    address: "",
-    city: "",
-    state: "",
-    zip: "",
-    logo: "",
-  });
+function AddHospital() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [zip, setZip] = useState("");
+  const [logo, setLogo] = useState("");
 
-  useEffect(() => {
-    // Get Firestore data for the specified hospital
-    const list = firebase
-      .firestore()
-      .collection(collectionPath)
-      .doc(id)
-      .onSnapshot((snapshot) => {
-        const data = snapshot.data();
-        setHospital(data);
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const itemsRef = firebase.firestore().collection("hospitals");
+    try {
+      await itemsRef.add({
+        name,
+        email,
+        phone,
+        address,
+        city,
+        state,
+        zip,
+        logo,
       });
-
-    return () => list();
-  }, [id]);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setHospital((prevHospital) => ({ ...prevHospital, [name]: value }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    // Update Firestore data for the specified hospital
-    firebase
-      .firestore()
-      .collection(collectionPath)
-      .doc(id)
-      .update(hospital)
-      .then(() => {
-        console.log("hospital updated successfully");
-        <Navigate to="/hospitals" />;
-      })
-      .catch((error) => {
-        console.error("Error updating hospital:", error);
-      });
+      console.log("Hospital added successfully!");
+      <Navigate to="/hospitals" />;
+    } catch (error) {
+      console.error("Error adding hospital: ", error);
+    }
   };
 
   return (
@@ -72,17 +50,16 @@ function UpdateHospital() {
         <Col md={10} style={{ backgroundColor: "" }}>
           <Container fluid>
             <Main />
-            <h2 className="text-muted my-5">Update Hospital</h2>
+            <h2 className="text-muted my-5">Add Hospital</h2>
             <Form className="my-5" onSubmit={handleSubmit}>
               <Row className="mb-3">
                 <Form.Group as={Col} controlId="formGridEmail">
                   <Form.Label>Email</Form.Label>
                   <Form.Control
-                    type="text"
+                    type="email"
                     placeholder="Enter email"
-                    name="name"
-                    value={hospital.email}
-                    onChange={handleChange}
+                    value={email}
+                    onChange={(event) => setEmail(event.target.value)}
                   />
                 </Form.Group>
 
@@ -91,9 +68,8 @@ function UpdateHospital() {
                   <Form.Control
                     type="text"
                     placeholder="Enter name"
-                    name="name"
-                    value={hospital.name}
-                    onChange={handleChange}
+                    value={name}
+                    onChange={(event) => setName(event.target.value)}
                   />
                 </Form.Group>
               </Row>
@@ -102,9 +78,9 @@ function UpdateHospital() {
                 <Form.Label>Phone</Form.Label>
                 <Form.Control
                   placeholder="+XX XXX XXX XXX"
-                  name="name"
-                  value={hospital.phone}
-                  onChange={handleChange}
+                  type="text"
+                  value={phone}
+                  onChange={(event) => setPhone(event.target.value)}
                 />
               </Form.Group>
 
@@ -112,9 +88,9 @@ function UpdateHospital() {
                 <Form.Label>Address</Form.Label>
                 <Form.Control
                   placeholder="Apartment, studio, or floor"
-                  name="name"
-                  value={hospital.address}
-                  onChange={handleChange}
+                  type="text"
+                  value={address}
+                  onChange={(event) => setAddress(event.target.value)}
                 />
               </Form.Group>
 
@@ -122,39 +98,37 @@ function UpdateHospital() {
                 <Form.Group as={Col} controlId="formGridCity">
                   <Form.Label>City</Form.Label>
                   <Form.Control
-                    name="name"
-                    value={hospital.city}
-                    onChange={handleChange}
+                    type="text"
+                    value={city}
+                    onChange={(event) => setCity(event.target.value)}
                   />
                 </Form.Group>
 
                 <Form.Group as={Col} controlId="formGridState">
                   <Form.Label>State</Form.Label>
-                  <Form.Select
-                    defaultValue="Choose..."
-                    //
-                    // name="name"
-                    // value={hospital.state}
-                    // onChange={handleChange}
-                  >
+                  <Form.Select defaultValue="Choose..." onChange={(event) => setState(event.target.value)} >
                     <option>Choose...</option>
-                    <option>...</option>
+                    <option value={state}>...</option>
                   </Form.Select>
                 </Form.Group>
 
                 <Form.Group as={Col} controlId="formGridZip">
                   <Form.Label>Zip</Form.Label>
                   <Form.Control
-                    name="name"
-                    value={hospital.zip}
-                    onChange={handleChange}
+                    type="text"
+                    value={zip}
+                    onChange={(event) => setZip(event.target.value)}
                   />
                 </Form.Group>
               </Row>
 
               <Form.Group controlId="formFile" className="mb-3">
                 <Form.Label>Select Hospital Logo</Form.Label>
-                <Form.Control type="file" />
+                <Form.Control
+                  type="file"
+                  value={logo}
+                  onChange={(event) => setLogo(event.target.value)}
+                />
               </Form.Group>
 
               <Button variant="primary" type="submit">
@@ -168,4 +142,4 @@ function UpdateHospital() {
   );
 }
 
-export default UpdateHospital;
+export default AddHospital;

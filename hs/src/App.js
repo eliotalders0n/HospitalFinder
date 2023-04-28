@@ -18,7 +18,9 @@ import Users from "./admin/components/users";
 import Analytics from "./admin/components/analytics";
 // Admin CRUD components
 import UpdateHospital from "./admin/components/updateHospital";
+import AddHospital from "./admin/components/addHospital";
 import UpdateUsers from "./admin/components/updateUser";
+import AddUsers from "./admin/components/addUser";
 import UpdateSettings from "./admin/components/updateSettings";
 
 const App = () => {
@@ -42,8 +44,10 @@ const App = () => {
         <Route path="/analytics" element={<Analytics />} />
       </Routes>
       <Routes>
-        <Route path="/updateHospital" element={<UpdateHospital />} />
+        <Route path="/updateHospital/:id" element={<UpdateHospital />} />
+        <Route path="/addNewHospital" element={<AddHospital />} />
         <Route path="/updateUsers" element={<UpdateUsers />} />
+        <Route path="/addNewUsers" element={<AddUsers />} />
         <Route path="/updateSettings" element={<UpdateSettings />} />
       </Routes>
     </BrowserRouter>

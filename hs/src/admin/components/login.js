@@ -1,11 +1,49 @@
-import React from "react";
-import { Card, ListGroup, Row, Container, Col, InputGroup, Button, Form } from "react-bootstrap";
+import React, { useState } from "react";
+import { Navigate } from "react-router-dom";
+import firebaseConfig from "../../firebaseConfig";
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
+import {
+  Card,
+  ListGroup,
+  Row,
+  Container,
+  Col,
+  InputGroup,
+  Button,
+  Form,
+} from "react-bootstrap";
+
+firebase.initializeApp(firebaseConfig);
 
 function Login(props) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loggedin, setLoggedin] = useState(false);
+
+  const handleLogin = async (event) => {
+    event.preventDefault();
+    try {
+      await firebase.auth().signInWithEmailAndPassword(email, password);
+      console.log("Successfully logged in!");
+      setLoggedin(true);
+    } catch (error) {
+      console.error("Error logging in: ", error);
+    }
+  };
+
+  if(loggedin){
+    return <Navigate to="/admin" />; // navigate to dashboard
+  }
+
   return (
     <Container fluid>
       <Row className="d-flex justify-content-center my-5">
-        <Col md={12} className="text-center"><h1 style={{ fontSize : "18vh"}}>Hospital<span style={{ color: "purple" }}>Finder</span></h1></Col>
+        <Col md={12} className="text-center">
+          <h1 style={{ fontSize: "18vh" }}>
+            Hospital<span style={{ color: "purple" }}>Finder</span>
+          </h1>
+        </Col>
         <Col md={2} className="my-2">
           <Card style={{ width: "18rem" }}>
             <Card.Img
@@ -20,29 +58,37 @@ function Login(props) {
               </Card.Text>
             </Card.Body>
             <ListGroup className="list-group-flush">
-              <ListGroup.Item>
-                <InputGroup size="sm" className="mb-3">
-                  <InputGroup.Text id="inputGroup-sizing-sm">
-                    Username
-                  </InputGroup.Text>
-                  <Form.Control
-                    aria-label="username"
-                    aria-describedby="inputGroup-sizing-sm"
-                    type="text"
-                  />
-                </InputGroup>
-                <InputGroup size="sm" className="mb-3">
-                  <InputGroup.Text id="inputGroup-sizing-sm">
-                    Password
-                  </InputGroup.Text>
-                  <Form.Control
-                    aria-label="password"
-                    aria-describedby="inputGroup-sizing-sm"
-                    type="password"
-                  />
-                </InputGroup>   
-                <Button style={{width: "100%"}} href="/admin">Login</Button>
-              </ListGroup.Item>
+              <form onSubmit={handleLogin}>
+                <ListGroup.Item>
+                  <InputGroup size="sm" className="mb-3">
+                    <InputGroup.Text id="inputGroup-sizing-sm">
+                      Email
+                    </InputGroup.Text>
+                    <Form.Control
+                      aria-label="email"
+                      aria-describedby="inputGroup-sizing-sm"
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
+                  </InputGroup>
+                  <InputGroup size="sm" className="mb-3">
+                    <InputGroup.Text id="inputGroup-sizing-sm">
+                      Password
+                    </InputGroup.Text>
+                    <Form.Control
+                      aria-label="password"
+                      aria-describedby="inputGroup-sizing-sm"
+                      type="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                  </InputGroup>
+                  <Button type="submit" style={{ width: "100%" }}>
+                    Login
+                  </Button>
+                </ListGroup.Item>
+              </form>
             </ListGroup>
           </Card>
         </Col>
