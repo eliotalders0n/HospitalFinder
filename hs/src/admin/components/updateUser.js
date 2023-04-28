@@ -85,7 +85,7 @@ function UpdateUsers() {
                   <Form.Control
                     type="text"
                     placeholder="Enter email"
-                    name="name"
+                    name="email"
                     value={user.email}
                     onChange={handleChange}
                   />
@@ -108,7 +108,7 @@ function UpdateUsers() {
                 <Form.Control
                   type="text"
                   placeholder="Enter email"
-                  name="name"
+                  name="phone"
                   value={user.phone}
                   onChange={handleChange}
                 />
@@ -119,8 +119,8 @@ function UpdateUsers() {
                   <Form.Label>Password</Form.Label>
                   <Form.Control
                     type="text"
-                    placeholder="Enter email"
-                    name="name"
+                    placeholder="Enter password"
+                    name="password"
                     value={user.password}
                     onChange={handleChange}
                   />
@@ -130,8 +130,8 @@ function UpdateUsers() {
                   <Form.Label>Role</Form.Label>
                   <Form.Control
                     type="text"
-                    placeholder="Enter email"
-                    name="name"
+                    placeholder="Enter role"
+                    name="role"
                     value={user.role}
                     onChange={handleChange}
                   />
@@ -142,8 +142,8 @@ function UpdateUsers() {
                 <Form.Label>Address</Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="Enter email"
-                  name="name"
+                  placeholder="Enter address"
+                  name="address"
                   value={user.address}
                   onChange={handleChange}
                 />
@@ -154,8 +154,8 @@ function UpdateUsers() {
                   <Form.Label>City</Form.Label>
                   <Form.Control
                     type="text"
-                    placeholder="Enter email"
-                    name="name"
+                    placeholder="Enter city"
+                    name="city"
                     value={user.city}
                     onChange={handleChange}
                   />
@@ -165,7 +165,7 @@ function UpdateUsers() {
                   <Form.Label>State</Form.Label>
                   <Form.Select
                     defaultValue="Choose..."
-                    name="name"
+                    name="state"
                     value={user.state}
                   >
                     <option>Choose...</option>
@@ -177,8 +177,8 @@ function UpdateUsers() {
                   <Form.Label>Zip</Form.Label>
                   <Form.Control
                     type="text"
-                    placeholder="Enter email"
-                    name="name"
+                    placeholder="Enter zip"
+                    name="zip"
                     value={user.zip}
                     onChange={handleChange}
                   />
