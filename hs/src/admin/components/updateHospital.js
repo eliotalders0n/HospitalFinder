@@ -85,7 +85,7 @@ function UpdateHospital() {
                   <Form.Control
                     type="text"
                     placeholder="Enter email"
-                    name="name"
+                    name="email"
                     value={hospital.email}
                     onChange={handleChange}
                   />
@@ -107,7 +107,7 @@ function UpdateHospital() {
                 <Form.Label>Phone</Form.Label>
                 <Form.Control
                   placeholder="+XX XXX XXX XXX"
-                  name="name"
+                  name="phone"
                   value={hospital.phone}
                   onChange={handleChange}
                 />
@@ -117,7 +117,7 @@ function UpdateHospital() {
                 <Form.Label>Address</Form.Label>
                 <Form.Control
                   placeholder="Apartment, studio, or floor"
-                  name="name"
+                  name="address"
                   value={hospital.address}
                   onChange={handleChange}
                 />
@@ -127,7 +127,7 @@ function UpdateHospital() {
                 <Form.Group as={Col} controlId="formGridCity">
                   <Form.Label>City</Form.Label>
                   <Form.Control
-                    name="name"
+                    name="city"
                     value={hospital.city}
                     onChange={handleChange}
                   />
@@ -150,7 +150,7 @@ function UpdateHospital() {
                 <Form.Group as={Col} controlId="formGridZip">
                   <Form.Label>Zip</Form.Label>
                   <Form.Control
-                    name="name"
+                    name="zip"
                     value={hospital.zip}
                     onChange={handleChange}
                   />

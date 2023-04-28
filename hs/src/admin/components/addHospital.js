@@ -2,15 +2,17 @@ import React, { useState } from "react";
 import { Navigate } from "react-router-dom";
 import firebaseConfig from "../../firebaseConfig";
 import firebase from "firebase/compat/app";
+import 'firebase/compat/storage';
 import "firebase/compat/firestore";
 import Sidebar from "../template/sidebar";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import Main from "../template/main";
 
 firebase.initializeApp(firebaseConfig);
+const storage = firebase.storage();
 
 function AddHospital() {
-    
+
   const [updated, setUpdated] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -19,10 +21,22 @@ function AddHospital() {
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
   const [zip, setZip] = useState("");
-  const [logo, setLogo] = useState("");
+
+  const [image, setImage] = useState(null);
+  const [imageUrl, setImageUrl] = useState(null);
+
+  const handleFileInputChange = (event) => {
+    const file = event.target.files[0];
+    setImage(file);
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    const storageRef = storage.ref();
+    const imageRef = storageRef.child(`images/${image.name}`);
+    
+
     const itemsRef = firebase.firestore().collection("hospitals");
     try {
       await itemsRef.add({
@@ -33,8 +47,15 @@ function AddHospital() {
         city,
         state,
         zip,
-        logo,
+        // image,
       });
+      imageRef.put(image).then(() => {
+        console.log('Image uploaded successfully!');
+        imageRef.getDownloadURL().then((url) => {
+            setImageUrl(url);
+          });
+      });
+
       console.log("Hospital added successfully!");
       setUpdated(true);
     } catch (error) {
@@ -132,11 +153,11 @@ function AddHospital() {
               </Row>
 
               <Form.Group controlId="formFile" className="mb-3">
+              {imageUrl && <img src={imageUrl} alt=""/>}
                 <Form.Label>Select Hospital Logo</Form.Label>
                 <Form.Control
                   type="file"
-                  value={logo}
-                  onChange={(event) => setLogo(event.target.value)}
+                  onChange={handleFileInputChange} 
                 />
               </Form.Group>
 

@@ -1,10 +1,40 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+
+import firebaseConfig from "../../firebaseConfig";
+import firebase from "firebase/compat/app";
+import "firebase/compat/firestore";
+
 import Card from "react-bootstrap/Card";
 import Sidebar from "../template/sidebar";
-import { Container, Row, Col, ListGroup } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import Main from "../template/main";
 
+firebase.initializeApp(firebaseConfig);
+const hospitalsCollection = "hospitals";
+const usersCollection = "users";
+
 function Dashboard(props) {
+  const [hospitalCount, setHospitalCount] = useState(0);
+  const [userCount, setUserCount] = useState(0);
+
+  useEffect(() => {
+    const hospitals = firebase.firestore()
+      .collection(hospitalsCollection)
+      .onSnapshot((snapshot) => {
+        setHospitalCount(snapshot.size);
+      });
+    return hospitals;
+  }, [hospitalsCollection]);
+
+  useEffect(() => {
+    const users = firebase.firestore()
+      .collection(usersCollection)
+      .onSnapshot((snapshot) => {
+        setUserCount(snapshot.size);
+      });
+    return users;
+  }, [usersCollection]);
+
   return (
     <Container fluid>
       <Row>
@@ -27,18 +57,9 @@ function Dashboard(props) {
                 >
                   <Card.Header>Hospitals</Card.Header>
                   <Card.Body>
-                    {/* <Card.Title>Card Title </Card.Title> */}
-                    <ListGroup>
-                      <ListGroup.Item variant="light">
-                        <b>Lusaka</b>
-                      </ListGroup.Item>
-                      <ListGroup.Item variant="light">
-                        <b>Manhattan</b>
-                      </ListGroup.Item>
-                      <ListGroup.Item variant="light">
-                        <b>Wuhan</b>
-                      </ListGroup.Item>
-                    </ListGroup>
+                  <Card.Text className="text-center">
+                      <h1 style={{ fontSize: "6rem" }}>{hospitalCount}</h1>
+                    </Card.Text>
                   </Card.Body>
                 </Card>
               </Col>
@@ -52,9 +73,8 @@ function Dashboard(props) {
                 >
                   <Card.Header>Users</Card.Header>
                   <Card.Body style={{ background: "4" }}>
-                    {/* <Card.Title>Card Title </Card.Title> */}
                     <Card.Text className="text-center">
-                      <h1 style={{ fontSize: "6rem" }}>4</h1>
+                      <h1 style={{ fontSize: "6rem" }}>{userCount}</h1>
                     </Card.Text>
                   </Card.Body>
                 </Card>
