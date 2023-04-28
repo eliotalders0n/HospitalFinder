@@ -5,7 +5,8 @@ function Login(props) {
   return (
     <Container fluid>
       <Row className="d-flex justify-content-center my-5">
-        <Col md={2} className="my-5">
+        <Col md={12} className="text-center"><h1 style={{ fontSize : "18vh"}}>Hospital<span style={{ color: "purple" }}>Finder</span></h1></Col>
+        <Col md={2} className="my-2">
           <Card style={{ width: "18rem" }}>
             <Card.Img
               variant="top"

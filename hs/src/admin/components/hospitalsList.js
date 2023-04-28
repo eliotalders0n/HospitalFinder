@@ -15,6 +15,8 @@ function Hospitals(props) {
           <Container fluid>
             <Main />
             <h2 className="text-muted my-5">Hospitals</h2>
+            <p className="text-muted">Organise and update hospitals</p>
+            <Button href="/addNewUser" className="my-3">Add New Hospital</Button>
             <Table striped bordered hover variant="light">
               <thead>
                 <tr>
