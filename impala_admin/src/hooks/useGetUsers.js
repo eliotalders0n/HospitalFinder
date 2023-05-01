@@ -6,7 +6,7 @@ const useGetUsers = () => {
     const [docs, setdocs] = useState([])
 
     useEffect(() => {
-         firebase.firestore().collection("app_users").onSnapshot((doc)=>{
+         firebase.firestore().collection("users").onSnapshot((doc)=>{
             const quotes = [];
             doc.docs.forEach(document => {
               const nb = {

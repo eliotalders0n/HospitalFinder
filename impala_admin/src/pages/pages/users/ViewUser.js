@@ -8,11 +8,13 @@ import firebase from '../../../firebase'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import BookingTable from './BookingTable';
+import GetUser from './GetUser';
 
 export default function ViewUser() {
    const [values, setValues] = useState(null)
    const location = useLocation()
    const {data} = location.state
+  //  const {data} = GetUser
 
    const navigate = useNavigate()
    const notify = (msg) => toast(msg);
@@ -84,7 +86,7 @@ export default function ViewUser() {
         {data?.documents?.PHOTO && <Box component="img" src={data?.documents?.PHOTO} sx={{ width: 140, height: 140,  borderRadius:2,  }} />}
             <Typography variant='overline'>Full Name</Typography>
             <Typography variant='h5'>
-                {data.name}
+                {data.firstName} {" "} {data.lastName}
             </Typography>
           
             <Typography variant='overline'>Email</Typography>
@@ -96,11 +98,17 @@ export default function ViewUser() {
             <Typography variant='h5'>
                 {data.address} 
             </Typography>
-            <Typography variant='overline'>Location</Typography>
+            
+            <Typography variant='overline'>Password</Typography>
             <Typography variant='h5'>
-                {data.location} 
+                {data.password} 
             </Typography>
-            <Typography variant='overline'>Drivers Licnese</Typography>
+
+            <Typography variant='overline'>Status</Typography>
+            <Typography variant='h5'>
+                {data.admin} 
+            </Typography>
+            {/* <Typography variant='overline'>Drivers Licnese</Typography>
             <Typography variant='h5'>
                 {data.drivers_license} 
             </Typography>
@@ -108,14 +116,14 @@ export default function ViewUser() {
             <Typography variant='overline'>Status</Typography>
             <Typography variant='h5'>
                 {data.status} 
-            </Typography>
+            </Typography> */}
                
         </Stack>
         </Card>
         <br/><br/>
         <Typography variant='overline'>Documents</Typography>
       <Card sx={{p:3}}>
-        <Stack spacing={3}>  
+        {/* <Stack spacing={3}>  
         <Typography variant='overline'>Driver License (Back)</Typography>
         {data.documents["DRIVERS_LICENSE_BACK"] === "" ?
                 <Typography variant='overline'>Document missing</Typography> :
@@ -147,14 +155,14 @@ export default function ViewUser() {
             
             <Divider />
 
-        </Stack>
+        </Stack> */}
         </Card>
 
       </Grid>
-     
+{/*      
       <Grid item xs={9} md={9}>
         <BookingTable id={data.id}/>
-        </Grid>
+        </Grid> */}
 
       </Grid>
     </Container>
