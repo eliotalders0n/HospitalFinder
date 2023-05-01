@@ -5,6 +5,7 @@
   },
   "hosting": {
     "public": "build",
+    "site": "hospitalfinderadmin",
     "ignore": [
       "firebase.json",
       "**/.*",

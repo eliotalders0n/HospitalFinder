@@ -7,12 +7,11 @@ import { Box, Link, Button, Drawer, Typography, Avatar, Stack } from '@mui/mater
 
 import useResponsive from '../../hooks/useResponsive';
 // components
-import Logo from '../../components/Logo';
+// import Logo from '../../components/Logo';
 import Scrollbar from '../../components/Scrollbar';
 import NavSection from '../../components/NavSection';
 //
 import sidebarConfig from './SidebarConfig';
-import sidebarConfigAdmin from './SidebarConfigAdmin';
 import firebase from './../../firebase'
 // ----------------------------------------------------------------------
 
@@ -67,12 +66,16 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
         '& .simplebar-content': { height: 1, display: 'flex', flexDirection: 'column' }
       }}
     >
+      <Box sx={{ my: 2, mx: 5 }}>
+      <h3>HospitalFinder</h3>
+      </Box>
+  
       <Box sx={{ mb: 5, mx: 2.5 }}>
           <AccountStyle>
             <Box sx={{ ml: 2 }}>
            
               <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-              Hello  {user && user.firstName},
+              Hello  {user && user.firstName}
               </Typography>
               
             </Box>

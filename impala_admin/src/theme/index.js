@@ -19,7 +19,7 @@ export default function ThemeConfig({ children }) {
   const themeOptions = useMemo(
     () => ({
       palette :{
-        mode:'dark'
+        mode:'light'
       },
       shape: { borderRadius: 8 },
       typography,

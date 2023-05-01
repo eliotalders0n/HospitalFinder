@@ -195,7 +195,7 @@ export default function EditHospital() {
       });
   };
 
-  let typeOfServices = useGetExtras().docs
+  let typeOfServices = useGetExtras().docs;
   // [
   //   "Pulmonology",
   //   "Surgery",
@@ -268,93 +268,12 @@ export default function EditHospital() {
                     label="Address"
                   />
 
-                  {/* <TextField
-                    value={values.seatingCapacity}
+                  <TextField
                     fullWidth
-                    type={"number"}
-                    onChange={handleChange("seatingCapacity")}
-                    label="Number of Seats"
+                    value={values.zip}
+                    onChange={handleChange("zip")}
+                    label="zip"
                   />
-
-                  <TextField
-                    value={values.minDays}
-                    fullWidth
-                    type={"number"}
-                    onChange={handleChange("minDays")}
-                    label="Minimum number of Rental Days"
-                  />
-
-                  <TextField
-                    value={values.maxDays}
-                    fullWidth
-                    type={"number"}
-                    onChange={handleChange("maxDays")}
-                    label="MAximum number of Rental Days"
-                  />
-
-                  <TextField
-                    value={values.engine}
-                    fullWidth
-                    type={"number"}
-                    onChange={handleChange("engine")}
-                    label="Engine Size"
-                  />
-
-                  <TextField
-                    value={values.fuel}
-                    fullWidth
-                    select
-                    onChange={handleChange("fuel")}
-                    label="Fuel Type"
-                  >
-                    <MenuItem value={"PETROL"}>PETROL</MenuItem>
-                    <MenuItem value={"DIESEL"}>DIESEL</MenuItem>
-                    <MenuItem value={"ELECTRIC"}>ELECTRIC</MenuItem>
-                    <MenuItem value={"HYBRID"}>HYBRID</MenuItem>
-                  </TextField>
-
-                  <TextField
-                    fullWidth
-                    select
-                    value={values.transmission}
-                    onChange={handleChange("transmission")}
-                    label="Automatic or Manual Transmission"
-                  >
-                    <MenuItem value={"AUTOMATIC"}>AUTOMATIC</MenuItem>
-                    <MenuItem value={"MANUAL"}>MANUAL</MenuItem>
-                  </TextField>
-                  <TextField
-                    fullWidth
-                    type={"number"}
-                    value={values.mileage}
-                    onChange={handleChange("mileage")}
-                    label="Mileage"
-                  />
-                  <TextField
-                    fullWidth
-                    value={values.plate}
-                    onChange={handleChange("plate")}
-                    label="License Plate"
-                  />
-                  <TextField
-                    fullWidth
-                    value={values.dailyRentalPriceLocal}
-                    onChange={handleChange("dailyRentalPriceLocal")}
-                    label="Daily Rental Price Local"
-                  />
-                  <TextField
-                    fullWidth
-                    value={values.dailyRentalPriceOutside}
-                    onChange={handleChange("dailyRentalPriceOutside")}
-                    label="Daily Rental Price Outside"
-                  />
-                  <TextField
-                    fullWidth
-                    value={values.vin}
-                    type="number"
-                    onChange={handleChange("vin")}
-                    label="VIN / Chassis Number"
-                  /> */}
 
                   {laoding ? null : (
                     <Button
@@ -464,7 +383,6 @@ export default function EditHospital() {
                     Save
                   </Button>
                 </Stack>
-                
               </Card>
             </Grid>
           </Grid>

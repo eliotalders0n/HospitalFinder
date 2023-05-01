@@ -14,8 +14,8 @@ const firebaseConfig = {
   projectId: "girlcode-2867d",
   storageBucket: "girlcode-2867d.appspot.com",
   messagingSenderId: "191621205095",
-  appId: "1:191621205095:web:f99af874b009d70f9e58c2",
-  measurementId: "G-RD65MK33RC"
+  appId: "1:191621205095:web:41b52dec3145e1cf9e58c2",
+  measurementId: "G-T63DMHJMX8"
 };
 
 firebase.initializeApp(firebaseConfig);

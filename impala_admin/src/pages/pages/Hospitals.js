@@ -177,9 +177,9 @@ export default function Hospitals() {
               component={RouterLink}
               style={{ textDecoration: "none" }}
               variant="subtitle2"
-              to="/addCar"
+              to="/addHospital"
             >
-              Add Vehicle
+              Add Hospital
             </Link>
           </Button>
 

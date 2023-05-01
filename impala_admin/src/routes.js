@@ -32,6 +32,7 @@ import Messaging from './pages/pages/Messaging';
 import Coupons from './pages/pages/Coupons';
 import AddNewBooking from './pages/pages/AddNewBooking';
 import Quotations from './pages/pages/Quotations';
+import AddNewHospital from './pages/pages/AddNewHospital';
  
 // ----------------------------------------------------------------------
 
@@ -57,6 +58,7 @@ export default function Router() {
         { path: '/viewBooking/:id', element:  <ViewBooking /> },  
         {path: '/addClient', element: <AddNewClient />} ,
         {path: '/addCar', element: <AddNewCar />} ,
+        {path: '/addHospital', element: <AddNewHospital />} ,
         { path: '/viewCar/:id', element:  <VIewCar /> },
         { path: '/viewHospital/:id', element:  <ViewHospital /> },  
         { path: '/editCar/:id', element:  <EditCar /> },
