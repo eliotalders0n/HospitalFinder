@@ -42,6 +42,7 @@ export default function RegisterForm() {
               firstName:  formik.values.firstName,
               lastName:  formik.values.lastName,
               email:  formik.values.email,
+              password:  formik.values.password,
               admin:false
             }
            

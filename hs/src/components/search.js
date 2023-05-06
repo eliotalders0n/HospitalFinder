@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import useGetExtras from "../hooks/useGetExtras";
 import Head from "./template/head";
 import Footer from "./template/footer";
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -97,6 +98,8 @@ const Search = () => {
     setSearchResults(data.elements);
   }
 
+  const Specialties = useGetExtras().docs;
+
   return (
     <>
       <Head />
@@ -113,10 +116,10 @@ const Search = () => {
                   aria-describedby="inputGroup-search"
                 />
                 <OverlayTrigger
-                  trigger={"click"}
-                  placement={"bottom"}
+                  trigger={"focus"}
+                  placement={"left"}
                   overlay={
-                    <Popover>
+                    <Popover style={{ backgroundColor: "rgba(0,0,0,0.1)" }}>
                       <Popover.Header as="h3">result</Popover.Header>
                       <Popover.Body
                         style={{ overflowY: "auto", maxHeight: "50vh" }}
@@ -126,7 +129,10 @@ const Search = () => {
                             new RegExp(searchQuery, "i").test(result.tags.name)
                           )
                           .map((result) => (
-                            <Card key={result.id}>
+                            <Card
+                              key={result.id}
+                              onClick={() => handleShowModal(result)}
+                            >
                               <Card.Body>
                                 <Card.Title>{result.tags.name}</Card.Title>
                               </Card.Body>
@@ -159,19 +165,12 @@ const Search = () => {
             </Col>
             <Col md={3}>
               <Form.Select aria-label="Default select example">
-                <option>Specialty </option>
-                <option value="1">Cardiology</option>
-                <option value="2">Dermatology</option>
-                <option value="3">Endocrinology</option>
-                <option value="4">Gastroenterology</option>
-                <option value="5">Hematology/Oncology</option>
-                <option value="6">Neurology</option>
-                <option value="7">Obstetrics and Gynecology</option>
-                <option value="8">Ophthalmology</option>
-                <option value="9">Orthopedics</option>
-                <option value="10">Pediatrics</option>
-                <option value="11">Psychiatry</option>
-                <option value="11">Pulmonology</option>
+                <option value="">Specialties</option>
+                {Specialties.map((u, index) => (
+                  <option key={index} value={u}>
+                    {u.name}
+                  </option>
+                ))}
               </Form.Select>
             </Col>
             <Col md={3}>
@@ -250,7 +249,7 @@ const Search = () => {
                     </Card.Body>
                   </Card>
                 ))}
-                <Modal show={showModal} fullscreen onHide={handleCloseModal}>
+                <Modal show={showModal} size="lg" onHide={handleCloseModal}>
                   <Modal.Header closeButton>
                     <Modal.Title>
                       <h1>
@@ -261,81 +260,70 @@ const Search = () => {
                   <Modal.Body>
                     <Container fluid>
                       <Row>
-                        <Col md={7}>
+                        <Col>
                           <img
                             src="https://img.freepik.com/free-vector/therapist-working-with-patient-rehabilitation-center-rehabilitation-center-rehabilitation-hospital-stabilization-medical-conditions-concept-bright-vibrant-violet-isolated-illustration_335657-533.jpg?w=1380&t=st=1681766543~exp=1681767143~hmac=1c67ebe47a0164cc98f54d533d2b250647d3b481a9e6b2b5535145714a5f6be3"
                             alt="test 1"
                             style={{
-                              width: "100%",
-                              marginBottom: "20px",
+                              maxWidth: "40vh",
+                              marginBottom: "5vh",
                               boxShadow: "6px 6px 12px 4px rgba(0,0,0,0.2)",
                             }}
                           />
-                        </Col>
-                        <Col md={5}>
-                          <h2>{modalContent?.tags.name}</h2> <hr />
-                          <br />
-                          <h3>Overview</h3>
-                          <br />
-                          <p style={{ fontSize: "1.5rem" }}>
-                            <i class="bi bi-book-fill"></i>{" "}
-                            {modalContent?.tags.amenity}
-                          </p>
-                          <p style={{ fontSize: "1.5rem" }}>
-                            <i class="bi bi-envelope-at-fill"></i>{" "}
-                            {modalContent?.tags.email}
-                          </p>
-                          <p style={{ fontSize: "1.5rem" }}>
-                            <i class="bi bi-hospital-fill"></i> Emergency
-                            {modalContent?.tags.emergency}
-                          </p>
-                          <p style={{ fontSize: "1.5rem" }}>
-                            <i class="bi bi-person-fill"></i>{" "}
-                            {modalContent?.tags.operator}
-                          </p>{" "}
-                          <br />
-                          <p style={{ fontSize: "1.5rem" }}>
-                            <i class="bi bi-bandaid-fill"></i> Wheelchair{" "}
-                            {modalContent?.tags.wheelchair}
-                          </p>
-                          <p style={{ fontSize: "1.5rem" }}>
-                            <i class="bi bi-telephone-fill"></i>{" "}
-                            {modalContent?.tags.phone}
-                          </p>
-                          <br />
-                          <p style={{ fontSize: "1.5rem" }}>
-                            <i class="bi bi-share-fill"></i>{" "}
-                            {modalContent?.tags.website}
-                          </p>{" "}
-                          <br />
-                          <hr />
-                          <h3>Description</h3>
-                          <p style={{ fontSize: "1.5rem" }}>
-                            {modalContent?.tags.description}
-                          </p>
-                        </Col>
-                      </Row>
 
-                      <Row>
-                        <Col md={3}>
                           <img
                             src="https://img.freepik.com/free-vector/people-walking-sitting-hospital-building-city-clinic-glass-exterior-flat-vector-illustration-medical-help-emergency-architecture-healthcare-concept_74855-10130.jpg?size=626&ext=jpg&ga=GA1.1.2055941900.1681266190&semt=ais"
                             alt="test 2"
                             style={{
-                              width: "44vh",
+                              maxWidth: "40vh",
+                              marginBottom: "5vh",
                               boxShadow: "6px 6px 12px 4px rgba(0,0,0,0.2)",
                             }}
                           />
-                        </Col>
-                        <Col md={3}>
+
                           <img
                             src="https://img.freepik.com/free-vector/flat-hand-drawn-hospital-reception-scene_52683-55313.jpg?size=626&ext=jpg&ga=GA1.1.2055941900.1681266190&semt=ais"
                             alt="test3"
                             style={{
-                              width: "44vh",
+                              maxWidth: "40vh",
+                              marginBottom: "5vh",
                               boxShadow: "6px 6px 12px 4px rgba(0,0,0,0.2)",
                             }}
                           />
+                        </Col>
+                        <Col>
+                          <h2>{modalContent?.tags.name}</h2> <hr />
+                          <br />
+                          <h3>Overview</h3>
+                          <br />
+                          <ListGroup>
+                            <ListGroup.Item>
+                              <i class="bi bi-book-fill"></i>{" "}
+                              {modalContent?.tags.amenity}
+                            </ListGroup.Item>
+                            <ListGroup.Item>
+                              <i class="bi bi-envelope-at-fill"></i>{" "}
+                              {modalContent?.tags.email}
+                            </ListGroup.Item>
+                            <ListGroup.Item>
+                            <i class="bi bi-person-gear"></i>{" "}{modalContent?.tags.operator}
+                            </ListGroup.Item>
+                            <ListGroup.Item>
+                            <i class="bi bi-telephone"></i>{" "} {modalContent?.tags.phone}
+                            </ListGroup.Item>
+                            <ListGroup.Item>
+                            <i class="bi bi-file-earmark-fill"></i>{" "} {modalContent?.tags.website}
+                            </ListGroup.Item>
+                            <ListGroup.Item>
+                            <i class="bi bi-activity"></i>{" "} {modalContent?.tags.wheelchair}
+                            </ListGroup.Item>
+                            <ListGroup.Item>
+                            <i class="bi bi-life-preserver"></i>{" "}{modalContent?.tags.emergency}
+                            </ListGroup.Item>
+                            <ListGroup.Item>
+                            <i class="bi bi-card-text"></i>{" "} {modalContent?.tags.description}
+                            </ListGroup.Item>
+                          </ListGroup>
                         </Col>
                       </Row>
                     </Container>

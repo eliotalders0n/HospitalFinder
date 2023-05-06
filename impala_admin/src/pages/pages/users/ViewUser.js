@@ -1,59 +1,81 @@
-import { Link as RouterLink, useNavigate, useLocation } from 'react-router-dom';
-import {useState, useEffect} from 'react';
+import { Link as RouterLink, useNavigate, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
 // material
-import { Grid, Button, Link, Container, Checkbox, Stack, Typography, Card, TextField, MenuItem, Divider, Box } from '@mui/material';
+import {
+  Grid,
+  Button,
+  Link,
+  Container,
+  Checkbox,
+  Stack,
+  Typography,
+  Card,
+  TextField,
+  MenuItem,
+  Divider,
+  Box,
+} from "@mui/material";
 // components
-import Page from '../../../components/Page';
-import firebase from '../../../firebase' 
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import BookingTable from './BookingTable';
-import GetUser from './GetUser';
+import Page from "../../../components/Page";
+import firebase from "../../../firebase";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import BookingTable from "./BookingTable";
+import GetUser from "./GetUser";
+import ResetPasswordForm from "src/pages/ResetPasswordForm";
 
 export default function ViewUser() {
-   const [values, setValues] = useState(null)
-   const location = useLocation()
-   const {data} = location.state
+  const [values, setValues] = useState(null);
+  const location = useLocation();
+  const { data } = location.state;
   //  const {data} = GetUser
 
-   const navigate = useNavigate()
-   const notify = (msg) => toast(msg);
+  const navigate = useNavigate();
+  const notify = (msg) => toast(msg);
 
-     const handleChange = (prop) => (event) => {
+  const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
   };
-  
-  const sendNotification = (msg) =>{
+
+  const sendNotification = (msg) => {
     var formdata = new FormData();
     formdata.append("to", data.token);
     formdata.append("title", "Taximania Admin");
     formdata.append("body", "Your account was " + msg);
 
     var requestOptions = {
-      method: 'POST',
+      method: "POST",
       body: formdata,
-      redirect: 'follow'
+      redirect: "follow",
     };
 
-    fetch("https://corserver.onrender.com/https://exp.host/--/api/v2/push/send", requestOptions)
-      .then(response => response.text())
-      .then(result => console.log(result))
-      .catch(error => console.log('error', error));
-  }
- 
-  const update = (status) =>{
-    firebase.firestore().collection("app_users").doc(data.id).update({
-      status : status,
-      lastUpdateBy : firebase.auth().currentUser.uid
-    }).then(()=>{
-      notify("Status updated")
-      sendNotification(status)
-      navigate(-1)
-    })
-  }
+    fetch(
+      "https://corserver.onrender.com/https://exp.host/--/api/v2/push/send",
+      requestOptions
+    )
+      .then((response) => response.text())
+      .then((result) => console.log(result))
+      .catch((error) => console.log("error", error));
+  };
+
+  const update = (status) => {
+    firebase
+      .firestore()
+      .collection("app_users")
+      .doc(data.id)
+      .update({
+        status: status,
+        lastUpdateBy: firebase.auth().currentUser.uid,
+      })
+      .then(() => {
+        notify("Status updated");
+        sendNotification(status);
+        navigate(-1);
+      });
+  };
   return (
     <Page title="Dashboard">
-     <ToastContainer
+      <ToastContainer
         position="bottom-center"
         autoClose={3000}
         hideProgressBar={false}
@@ -63,52 +85,73 @@ export default function ViewUser() {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        />
-     
-    <Container maxWidth="xl">
-    <Stack direction="row" justifyContent={"space-between"}>
-      <Stack direction="row" alignItems="flex-end" justifyContent="space-between" mb={5}>
-        <Typography variant="h4" gutterBottom>
-          {data.name}</Typography>                 
-      </Stack>
-   
+      />
+
+      <Container maxWidth="xl">
+        <Stack direction="row" justifyContent={"space-between"}>
+          <Stack
+            direction="row"
+            alignItems="flex-end"
+            justifyContent="space-between"
+            mb={5}
+          >
+            <Typography variant="h4" gutterBottom>
+              {data.name}
+            </Typography>
+          </Stack>
         </Stack>
         <Stack direction={"row"} spacing={3}>
-        <Button size="small"   variant="contained" color="success" onClick={()=>update("APPROVED")} style={{textDecoration:"none"}} >APPROVE</Button>  
-        <Button size="small"   variant="contained" color='error' onClick={()=>update("DENIED")} style={{textDecoration:"none"}} >DENIED</Button>  
+          <Button
+            size="small"
+            variant="contained"
+            color="success"
+            onClick={() => update("APPROVED")}
+            style={{ textDecoration: "none" }}
+          >
+            APPROVE
+          </Button>
+          <Button
+            size="small"
+            variant="contained"
+            color="error"
+            onClick={() => update("DENIED")}
+            style={{ textDecoration: "none" }}
+          >
+            DENIED
+          </Button>
         </Stack>
-        <Divider sx={{marginTop:2, marginBottom:2}} />
-      <Grid container spacing={3}>
-      <Grid item xs={3} md={3}>
-      <Typography variant='overline'>Details</Typography>
-      <Card sx={{p:3}}>
-        <Stack spacing={3}>  
-        {data?.documents?.PHOTO && <Box component="img" src={data?.documents?.PHOTO} sx={{ width: 140, height: 140,  borderRadius:2,  }} />}
-            <Typography variant='overline'>Full Name</Typography>
-            <Typography variant='h5'>
-                {data.firstName} {" "} {data.lastName}
-            </Typography>
-          
-            <Typography variant='overline'>Email</Typography>
-            <Typography variant='h5'>
-                {data.email} 
-            </Typography>
-           
-            <Typography variant='overline'>Address</Typography>
-            <Typography variant='h5'>
-                {data.address} 
-            </Typography>
-            
-            <Typography variant='overline'>Password</Typography>
-            <Typography variant='h5'>
-                {data.password} 
-            </Typography>
+        <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
+        <Grid container spacing={3}>
+          <Grid item xs={6} md={6}>
+            <Typography variant="overline">Details</Typography>
+            <Card sx={{ p: 3 }}>
+              <Stack spacing={3}>
+                {data?.documents?.PHOTO && (
+                  <Box
+                    component="img"
+                    src={data?.documents?.PHOTO}
+                    sx={{ width: 140, height: 140, borderRadius: 2 }}
+                  />
+                )}
+                <Typography variant="overline">Full Name</Typography>
+                <Typography variant="h5">
+                  {data.firstName} {data.lastName}
+                </Typography>
 
-            <Typography variant='overline'>Status</Typography>
-            <Typography variant='h5'>
-                {data.admin} 
-            </Typography>
-            {/* <Typography variant='overline'>Drivers Licnese</Typography>
+                <Typography variant="overline">Email</Typography>
+                <Typography variant="h5">{data.email}</Typography>
+
+                <Typography variant="overline">Password</Typography>
+                <Typography variant="h5">{data.password}</Typography>
+                <ResetPasswordForm />
+
+                <Typography variant="overline">Status</Typography>
+                {data.admin ? (
+                  <Typography variant="h5">Admin</Typography>
+                ) : (
+                  <Typography variant="h5">Not Admin</Typography>
+                )}
+                {/* <Typography variant='overline'>Drivers Licnese</Typography>
             <Typography variant='h5'>
                 {data.drivers_license} 
             </Typography>
@@ -117,13 +160,13 @@ export default function ViewUser() {
             <Typography variant='h5'>
                 {data.status} 
             </Typography> */}
-               
-        </Stack>
-        </Card>
-        <br/><br/>
-        <Typography variant='overline'>Documents</Typography>
-      <Card sx={{p:3}}>
-        {/* <Stack spacing={3}>  
+              </Stack>
+            </Card>
+            <br />
+            <br />
+            <Typography variant="overline">Documents</Typography>
+            <Card sx={{ p: 3 }}>
+              {/* <Stack spacing={3}>  
         <Typography variant='overline'>Driver License (Back)</Typography>
         {data.documents["DRIVERS_LICENSE_BACK"] === "" ?
                 <Typography variant='overline'>Document missing</Typography> :
@@ -156,16 +199,14 @@ export default function ViewUser() {
             <Divider />
 
         </Stack> */}
-        </Card>
-
-      </Grid>
-{/*      
+            </Card>
+          </Grid>
+          {/*      
       <Grid item xs={9} md={9}>
         <BookingTable id={data.id}/>
         </Grid> */}
-
-      </Grid>
-    </Container>
-  </Page>
-  )
+        </Grid>
+      </Container>
+    </Page>
+  );
 }

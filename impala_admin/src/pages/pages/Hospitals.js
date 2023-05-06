@@ -43,7 +43,7 @@ const TABLE_HEAD = [
   { id: "state", label: "STATE", alignRight: false },
   { id: "city", label: "CITY", alignRight: false },
   { id: "address", label: "ADDRESS", alignRight: false },
-  { id: "rating", label: "RATING", alignRight: false },
+  { id: "img", label: "LOGO", alignRight: false },
   { id: "status", label: "STATUS", alignRight: false },
 
   { id: "" },
@@ -295,7 +295,7 @@ export default function Hospitals() {
                           <TableCell align="left">{row.state}</TableCell>
                           <TableCell align="left">{row.city}</TableCell>
                           <TableCell align="left">{row.address}</TableCell>
-                          <TableCell align="left">{row.rating}</TableCell>
+                          <TableCell align="left"><img src={row.img} alt={row.img} style={{width : "8vh"}}/></TableCell>
                           <TableCell align="left">{row.status}</TableCell>
 
                           <TableCell align="left">

@@ -72,15 +72,15 @@ export default function ResetPasswordForm({ onSent, onGetEmail }) {
     minHeight: '100vh',
     flexDirection: 'column',
     justifyContent: 'center',
-    padding: theme.spacing(12, 0)
+    padding: theme.spacing(6, 0)
   }));
 
   
   return (
     <RootStyle title="Register">
        <Container>
-        <ContentStyle>
-          <Box sx={{ mb: 5 }}>
+        {/* <ContentStyle> */}
+          <Box sx={{ mb: 1 }}>
             <Typography variant="h4" gutterBottom>
              Forgot Password.
             </Typography>
@@ -112,7 +112,7 @@ export default function ResetPasswordForm({ onSent, onGetEmail }) {
         </Stack>
       </Form>
     </FormikProvider>
-    </ContentStyle>
+    {/* </ContentStyle> */}
     </Container>
     </RootStyle>
   );
