@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+// import axios from "axios";
 import useGetExtras from "../hooks/useGetExtras";
 import Head from "./template/head";
 import Footer from "./template/footer";
@@ -19,23 +19,60 @@ import {
   Popover,
 } from "react-bootstrap";
 
+// maps api foursquare = fsq3qdGNsyxCdF0IRGIOujcihodHFg0+FBmtRSXtPPmeAo0=
+
 const Search = () => {
   const [hospitals, setHospitals] = useState([]);
+  const [Images, setImages] = useState([]);
 
   useEffect(() => {
-    axios
-      .get(
-        "https://overpass-api.de/api/interpreter?data=[out:json];node[amenity=hospital](around:505000,-15.416667, 28.283333);out;"
-      )
-      .then((response) => {
-        setHospitals(response.data.elements);
-        // console.log("Hospitals" + JSON.stringify(response.data));
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    const options = {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization: "fsq3qdGNsyxCdF0IRGIOujcihodHFg0+FBmtRSXtPPmeAo0=",
+      },
+    };
+
+    fetch(
+      "https://api.foursquare.com/v3/places/search?query=Hospital&ll=-15.416667,28.283333&radius=50000&limit=50",
+      options
+    )
+      .then((response) => response.json())
+      // .then(data => console.log(data.results))
+      .then((data) => setHospitals(data.results))
+      .catch((error) => console.error(error));
   }, []);
 
+  // console.log('================================');
+  // console.log("hos" + hospitals.map((data) => data.fsq_id));
+
+  // function GetImage(id){
+  //   useEffect(() => {
+  //     const options = {
+  //       method: "GET",
+  //       headers: {
+  //         accept: "application/json",
+  //         Authorization: "fsq3qdGNsyxCdF0IRGIOujcihodHFg0+FBmtRSXtPPmeAo0=",
+  //       },
+  //     };
+
+  //     fetch(`https://api.foursquare.com/v3/places/${id}/photos`, options)
+  //       .then((response) => response.json())
+  //       .then((response) => setImages(response))
+  //       .catch((err) => console.error(err));
+  //   }, []);
+
+  //   return Images;
+  // }
+
+  // const id = "4ef06f32722ece9f1727e4d1";
+  // console.log("================================");
+  // console.log(
+  //   "Image data : " +
+  //     GetImage(id.toString()).map((data) => data.suffix)
+  // );
+  // console.log('image ' + Images.map((data) => data.suffix));
   // Get current location
   const [position, setPosition] = useState(null);
   const [lat, setLat] = useState("");
@@ -203,14 +240,18 @@ const Search = () => {
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
-              {hospitals.map((hospital) => (
-                <Marker
-                  key={hospital.id}
-                  position={[hospital.lat, hospital.lon]}
-                >
-                  <Popup>{hospital.tags.name}</Popup>
-                </Marker>
-              ))}
+              {hospitals &&
+                hospitals.map((hospital) => (
+                  <Marker
+                    key={hospital.fsq_id}
+                    position={[
+                      hospital.geocodes.main.latitude,
+                      hospital.geocodes.main.longitude,
+                    ]}
+                  >
+                    <Popup>{hospital.name}</Popup>
+                  </Marker>
+                ))}
             </MapContainer>
           </Col>
           <Col md={6}>
@@ -234,11 +275,10 @@ const Search = () => {
                       src="https://img.freepik.com/free-vector/therapist-working-with-patient-rehabilitation-center-rehabilitation-center-rehabilitation-hospital-stabilization-medical-conditions-concept-bright-vibrant-violet-isolated-illustration_335657-533.jpg?w=1380&t=st=1681766543~exp=1681767143~hmac=1c67ebe47a0164cc98f54d533d2b250647d3b481a9e6b2b5535145714a5f6be3"
                     />
                     <Card.Body>
-                      <Card.Title>{hospital.tags.name}</Card.Title>
+                      <Card.Title>{hospital.name}</Card.Title>
                       <Card.Text>
-                        {hospital.tags.locality}
-                        <br />
-                        {hospital.tags.operator}
+                        {hospital.location.formatted_address} <br />
+                        Distance {hospital.distance} meters
                       </Card.Text>
                       <Button
                         variant="primary"
@@ -260,68 +300,78 @@ const Search = () => {
                   <Modal.Body>
                     <Container fluid>
                       <Row>
-                        <Col>
+                        <Col style={{ overflowY: "auto", maxHeight: "70vh", backgroundColor: "rgba(200,200,200,0.3)", borderRadius: "175px" }}>
+                         {/* {modalContent?.fsq_id}
+                          {GetImage("4ef06f32722ece9f1727e4d1").map((image) => (
+                            <img
+                              key={image.id}
+                              src={`https://fastly.4sqi.net/img/general/300x500${image.suffix}`}
+                              alt="test 1"
+                              style={{
+                                maxWidth: "720",
+                                maxHeight: "960",
+                                marginBottom: "5vh",
+                                boxShadow: "6px 6px 12px 4px rgba(0,0,0,0.2)",
+                              }}
+                            />
+                            
+                          ))} */}
                           <img
-                            src="https://img.freepik.com/free-vector/therapist-working-with-patient-rehabilitation-center-rehabilitation-center-rehabilitation-hospital-stabilization-medical-conditions-concept-bright-vibrant-violet-isolated-illustration_335657-533.jpg?w=1380&t=st=1681766543~exp=1681767143~hmac=1c67ebe47a0164cc98f54d533d2b250647d3b481a9e6b2b5535145714a5f6be3"
-                            alt="test 1"
-                            style={{
-                              maxWidth: "40vh",
-                              marginBottom: "5vh",
-                              boxShadow: "6px 6px 12px 4px rgba(0,0,0,0.2)",
-                            }}
-                          />
-
-                          <img
-                            src="https://img.freepik.com/free-vector/people-walking-sitting-hospital-building-city-clinic-glass-exterior-flat-vector-illustration-medical-help-emergency-architecture-healthcare-concept_74855-10130.jpg?size=626&ext=jpg&ga=GA1.1.2055941900.1681266190&semt=ais"
-                            alt="test 2"
-                            style={{
-                              maxWidth: "40vh",
-                              marginBottom: "5vh",
-                              boxShadow: "6px 6px 12px 4px rgba(0,0,0,0.2)",
-                            }}
-                          />
-
-                          <img
-                            src="https://img.freepik.com/free-vector/flat-hand-drawn-hospital-reception-scene_52683-55313.jpg?size=626&ext=jpg&ga=GA1.1.2055941900.1681266190&semt=ais"
-                            alt="test3"
-                            style={{
-                              maxWidth: "40vh",
-                              marginBottom: "5vh",
-                              boxShadow: "6px 6px 12px 4px rgba(0,0,0,0.2)",
-                            }}
-                          />
+                              src={`https://img.freepik.com/free-vector/hospital-building-concept-illustration_114360-8440.jpg?size=626&ext=jpg&uid=R66341138&ga=GA1.1.2055941900.1681266190&semt=ais`}
+                              alt="test 1"
+                              style={{
+                                maxWidth: "35vh",
+                                marginBottom: "5vh",
+                                boxShadow: "4px 4px 6px 2px rgba(10,10,130,0.1)",
+                              }}
+                            />
+                            <img
+                              src={`https://img.freepik.com/free-vector/hospital-building-concept-illustration_114360-8240.jpg?size=626&ext=jpg&uid=R66341138&ga=GA1.1.2055941900.1681266190&semt=ais`}
+                              alt="test 2"
+                              style={{
+                                maxWidth: "35vh",
+                                marginBottom: "5vh",
+                                boxShadow: "4px 4px 6px 2px rgba(10,130,10,0.1)",
+                              }}
+                            />
                         </Col>
                         <Col>
-                          <h2>{modalContent?.tags.name}</h2> <hr />
+                          <h2>{modalContent?.name}</h2> <hr />
                           <br />
                           <h3>Overview</h3>
                           <br />
                           <ListGroup>
                             <ListGroup.Item>
-                              <i class="bi bi-book-fill"></i>{" "}
-                              {modalContent?.tags.amenity}
+                              <i className="bi bi-book-fill"></i>{" "}
+                              {modalContent?.location.address}
                             </ListGroup.Item>
                             <ListGroup.Item>
-                              <i class="bi bi-envelope-at-fill"></i>{" "}
-                              {modalContent?.tags.email}
+                              <i className="bi bi-envelope-at-fill"></i>{" "}
+                              {modalContent?.email}
                             </ListGroup.Item>
                             <ListGroup.Item>
-                            <i class="bi bi-person-gear"></i>{" "}{modalContent?.tags.operator}
+                              <i className="bi bi-person-gear"></i>{" "}
+                              {modalContent?.operator}
                             </ListGroup.Item>
                             <ListGroup.Item>
-                            <i class="bi bi-telephone"></i>{" "} {modalContent?.tags.phone}
+                              <i className="bi bi-telephone"></i>{" "}
+                              {modalContent?.phone}
                             </ListGroup.Item>
                             <ListGroup.Item>
-                            <i class="bi bi-file-earmark-fill"></i>{" "} {modalContent?.tags.website}
+                              <i className="bi bi-file-earmark-fill"></i>{" "}
+                              {modalContent?.website}
                             </ListGroup.Item>
                             <ListGroup.Item>
-                            <i class="bi bi-activity"></i>{" "} {modalContent?.tags.wheelchair}
+                              <i className="bi bi-activity"></i>{" "}
+                              {modalContent?.wheelchair}
                             </ListGroup.Item>
                             <ListGroup.Item>
-                            <i class="bi bi-life-preserver"></i>{" "}{modalContent?.tags.emergency}
+                              <i className="bi bi-life-preserver"></i>{" "}
+                              {modalContent?.emergency}
                             </ListGroup.Item>
                             <ListGroup.Item>
-                            <i class="bi bi-card-text"></i>{" "} {modalContent?.tags.description}
+                              <i className="bi bi-card-text"></i>{" "}
+                              {modalContent?.description}
                             </ListGroup.Item>
                           </ListGroup>
                         </Col>
